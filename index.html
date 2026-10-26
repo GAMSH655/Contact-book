@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Book | Manage Your Contacts</title>
+  <link rel="stylesheet" href="style.css">
+  
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+/>
+
+  <script src="index.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">▤</div>
+      <div>
+        <h1>Contact Book</h1>
+        <p>Keep your contacts close</p>
+      </div>
+    </div>
+    <div class="profile-icon">●</div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <nav class="navigation">
+        <a href="#" class="nav-link active">
+          <span>⌂</span> All Contacts
+          <span class="nav-count" id="contactCount">0</span>
+        </a>
+        <a href="#" class="nav-link">
+          <span>☆</span> Favorites
+        </a>
+        <a href="#" class="nav-link">
+          <span>▤</span> Deleted
+        </a>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+
+      <h3 class="sidebar-heading">Quick Actions</h3>
+      <button class="primary-button sidebar-add" id="focusAddBtn" type="button">
+        + Add New Contact
+      </button>
+
+      <div class="searchBox">
+        <span>⌕</span>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Search contacts..."
+          aria-label="Search contacts"
+        >
+      </div>
+
+      <h3 class="sidebar-heading">Your Contacts</h3>
+      <div class="sidebar-contacts" id="sidebarContacts">
+        <p class="empty-sidebar">Your contacts will appear here.</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="panel form-panel" id="contactFormSection">
+        <div class="section-heading">
+          <span class="heading-icon">✚</span>
+          <div>
+            <h2 id="formTitle">Add New Contact</h2>
+            <p>Fill in the details below to add a new contact to your book.</p>
+          </div>
+        </div>
+
+        <form id="contactForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="contactName">Full Name <span>*</span></label>
+              <input
+                type="text"
+                id="contactName"
+                placeholder="Enter full name"
+                required
+              >
+              <small class="error-message" id="nameError"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="contactPhone">Phone Number <span>*</span></label>
+              <input
+                type="tel"
+                id="contactPhone"
+                placeholder="Enter phone number"
+                required
+              >
+              <small class="error-message" id="phoneError"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="contactEmail">Email Address</label>
+              <input
+                type="email"
+                id="contactEmail"
+                placeholder="Enter email address"
+              >
+              <small class="error-message" id="emailError"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="contactAddress">Address</label>
+              <input
+                type="text"
+                id="contactAddress"
+                placeholder="Enter address"
+              >
+                <small class="error-message" id="contactAddressError"></small>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="contactNotes">Notes</label>
+              <textarea
+                id="contactNotes"
+                rows="3"
+                placeholder="Add any notes (optional)..."
+              ></textarea>
+            </div>
+            <small class="error-message" id="contactNotesError"></small>
+          </div>
+
+          <div class="form-footer">
+            <label class="favorite-label">
+              <input type="checkbox" id="contactFavorite">
+              <span id="star starRed">☆</span> Add to favorites
+            </label>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="secondary-button hidden"
+                id="cancelEditBtn"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="primary-button" id="saveContactBtn">
+                + Save Contact
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel contacts-panel">
+        <div class="contacts-header">
+          <div class="section-heading compact-heading">
+            <span class="heading-icon">♟</span>
+            <div>
+              <h2>Your Contacts</h2>
+              <p id="resultsCount">0 contacts found</p>
+            </div>
+          </div>
+
+          <div class="sort-control">
+            <label for="sortContacts">Sort by:</label>
+            <select id="sortContacts"> 
+              <option value="name">Name (A-Z)</option>
+              <option value="name-desc">Name (Z-A)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="contacts-list" id="contactsList">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">♧</div>
+            <h3>No contacts yet</h3>
+            <p>Add your first contact using the form above.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe aliquid, quisquam accusamus molestias omnis dignissimos eius asperiores voluptatem error ad reiciendis aspernatur dolor accusantium, natus iste nemo ducimus nesciunt perspiciatis.

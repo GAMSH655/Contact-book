@@ -1,0 +1,229 @@
+
+const contactName = document.querySelector("#contactName");
+const nameError = document.querySelector("#nameError");
+const contactPhone = document.querySelector("#contactPhone");
+const phoneError = document.querySelector("#phoneError");
+const contactEmail = document.querySelector("#contactEmail");
+const emailError = document.querySelector("#emailError");
+const contactAddress = document.querySelector("#contactAddress");
+const contactAddressError = document.querySelector("#contactAddressError");
+const contactNotes = document.querySelector("#contactNotes");
+const contactNotesError = document.querySelector("#contactNotesError");
+const cancelEditBtn = document.querySelector("#cancelEditBtn");
+const saveContactBtn = document.querySelector("#saveContactBtn");
+const contactsList = document.querySelector("#contactsList")
+const emptyState = document.querySelector("#emptyState")
+const searchInput = document.querySelector("#searchInput")
+const sidebarContacts= document.querySelector("#sidebarContacts")
+const contactCount = document.querySelector("#contactCount")
+const resultsCount = document.querySelector("#resultsCount")
+const navLink = document.querySelectorAll(".nav-link")
+const star = document.querySelector("#starstarRed")
+const contactFavorite  = document.querySelector("#contactFavorite")
+
+
+const arrayofContacts = [];
+let editingContactId = null;
+
+function editContact(contact) {
+    contactName.value = contact.name;
+    contactPhone.value = contact.number;
+    contactEmail.value = contact.mail;
+    contactAddress.value = contact.address;
+    contactNotes.value = contact.notes;
+
+    editingContactId = contact.contact_Id;
+
+    saveContactBtn.textContent = "Update Contact";
+    cancelEditBtn.hidden = false;
+}
+
+
+function clearInputs() {
+    contactName.value = "";
+    contactEmail.value = "";
+    contactAddress.value = "";
+    contactPhone.value = "";
+    contactNotes.value = "";
+}
+
+function clearWarning() {
+    nameError.textContent = "";
+    phoneError.textContent = "";
+    emailError.textContent = "";
+    contactAddressError.textContent = "";
+    contactNotesError.textContent = "";
+}
+
+saveContactBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    clearWarning();
+
+    const inputedPhoneNumber = contactPhone.value.trim();
+    const inputedPhoneName = contactName.value.trim();
+    const inputContactAdress = contactAddress.value.trim();
+    const inputedContactNotes = contactNotes.value.trim();
+    const inputedEmail = contactEmail.value.trim();
+
+    let isValid = true;
+
+    if (inputedPhoneName === "") {
+        isValid = false;
+        nameError.textContent = "Enter a contact name";
+    }
+
+    if (inputedPhoneNumber === "") {
+        isValid = false;
+        phoneError.textContent = "Enter a phone number";
+    }
+
+    if (inputContactAdress === "") {
+        isValid = false;
+        contactAddressError.textContent = "Enter a valid address";
+    }
+
+    if (inputedEmail === "") {
+        isValid = false;
+        emailError.textContent = "Enter an email address";
+    }
+
+    if (inputedContactNotes === "") {
+        isValid = false;
+        contactNotesError.textContent = "Add a note";
+    }
+
+    if (!isValid) return;
+
+    const objectOfContacts = {
+        contact_Id: Date.now(),
+        name: inputedPhoneName,
+        number: inputedPhoneNumber,
+        address: inputContactAdress,
+        mail: inputedEmail,
+        notes: inputedContactNotes,
+        isFavorite: false
+    };
+
+    arrayofContacts.push(objectOfContacts);
+
+    console.log(arrayofContacts);
+
+    clearInputs();
+
+
+    if(emptyState){
+        emptyState.remove()
+    }
+    const newlyCreatedContactDiv = document.createElement("div")
+    newlyCreatedContactDiv.classList.add("newlyCreatedContactDiv")
+
+    const contactParagraph = document.createElement("p")
+    contactParagraph.classList.add("contactParagraph")
+    contactParagraph.textContent = 
+     `${objectOfContacts.name} \n` + 
+    `${objectOfContacts.number}\n` +
+    `${objectOfContacts.mail} \n` +
+    `${objectOfContacts.address}\n`+
+    `${objectOfContacts.notes}`
+
+const deleteBtn = document.createElement("button");
+deleteBtn.classList.add("deleteBtn");
+
+const deleteIcon = document.createElement("i");
+deleteIcon.classList.add("fas", "fa-trash-alt");
+
+resultsCount.textContent = `${arrayofContacts.length} contact found`
+
+function deleteContact(){
+    const contact_ID = arrayofContacts.findIndex(function(deleteContact_ID){
+     return deleteContact_ID.contact_Id === objectOfContacts.contact_Id
+    })
+    console.log(contact_ID)
+      if (contact_ID !== -1) {
+                arrayofContacts.splice(contact_ID, 1);
+                 newlyCreatedContactDiv.remove();
+                 contactCount.textContent = arrayofContacts.length;
+               resultsCount.textContent =  `${arrayofContacts.length} contacts found`;
+
+        searchContacts()
+            }
+
+}
+    
+
+const favoriteBtn = document.createElement("button");
+favoriteBtn.classList.add("favoriteBtn");
+
+const favoriteIcon = document.createElement("i");
+favoriteIcon.classList.add("fas", "fa-star");
+
+
+favoriteBtn.addEventListener("click", function () {
+    objectOfContacts.isFavorite =
+        !objectOfContacts.isFavorite;
+
+    favoriteBtn.classList.toggle(
+        "isFavorite",
+        objectOfContacts.isFavorite
+    );
+});
+
+
+
+
+
+deleteBtn.addEventListener("click", deleteContact)
+
+const editBtn = document.createElement("button");
+editBtn.classList.add("editBtn");
+
+const editBtnIcon = document.createElement("i");
+editBtnIcon.classList.add("fas", "fa-edit");
+
+newlyCreatedContactDiv.append(contactParagraph);
+
+deleteBtn.appendChild(deleteIcon);
+newlyCreatedContactDiv.append(deleteBtn);
+
+editBtn.appendChild(editBtnIcon);
+newlyCreatedContactDiv.append(editBtn);
+
+favoriteBtn.appendChild(favoriteIcon);
+newlyCreatedContactDiv.appendChild(favoriteBtn);
+
+contactsList.append(newlyCreatedContactDiv);
+
+});
+
+function searchContacts(event) {
+    const inputedContact = searchInput.value.trim().toLowerCase();
+
+     sidebarContacts.innerHTML = "";
+
+    for (let i = 0; i < arrayofContacts.length; i++) {
+        if (
+            String(arrayofContacts[i].contact_Id).includes(inputedContact) ||
+            arrayofContacts[i].name.toLowerCase().includes(inputedContact) ||
+            arrayofContacts[i].number.includes(inputedContact)
+        ) {
+            const contact = document.createElement("div");
+            contact.classList.add("contact-card");
+  
+
+            const sidebarContactName = document.createElement("p")
+            contact.appendChild(sidebarContactName)
+            sidebarContactName.classList.add("sidebarContactName")
+            sidebarContactName.textContent = 
+            `${arrayofContacts[i].name} \n` + 
+            `${arrayofContacts[i].number}\n` +
+            `${arrayofContacts[i].mail} \n` +
+            `${arrayofContacts[i].address}\n`+
+            `${arrayofContacts[i].notes}\n`
+       
+         console.log(sidebarContacts.appendChild(contact))
+        }
+    }
+     contactCount.textContent = arrayofContacts.length
+}
+
